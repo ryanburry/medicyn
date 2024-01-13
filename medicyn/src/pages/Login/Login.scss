@@ -1,0 +1,235 @@
+.login-wrapper {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  color: #0f0f0f;
+}
+
+.login-left {
+  height: 100vh;
+  width: 65%;
+  background-color: #fff;
+}
+.login-right {
+  height: 100vh;
+  width: 35%;
+  background-color: #0f0f0f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: #fff;
+  .right-txt-title {
+    font-weight: 500;
+    margin-top: 90px;
+    text-align: center;
+  }
+  .right-txt {
+    font-size: 12px;
+    width: 60%;
+    text-align: center;
+    margin-top: 30px;
+  }
+}
+
+.login-body-wrapper {
+  display: flex;
+  height: 80%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-top {
+  display: flex;
+  height: 5%;
+  padding: 30px;
+  .logo-container {
+    display: flex;
+    align-items: center;
+    padding: 30px;
+    .logo-txt {
+      font-weight: 700;
+      font-size: 18px;
+      margin-left: 15px;
+    }
+  }
+}
+
+.login-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  //align-items: center;
+  height: 90%;
+  width: 40%;
+  .heading-txt {
+    margin-bottom: 60px;
+  }
+  .login-heading {
+    font-weight: 500;
+    line-height: 55px;
+  }
+  .login-sub {
+    color: #767676;
+    font-weight: 300;
+    font-size: 12px;
+  }
+  .google-btn {
+    background-color: #0f0f0f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: inherit;
+    color: #fff;
+    height: 50px;
+    font-size: 12px;
+    width: 100%;
+    border-radius: 5px;
+    text-align: center;
+    margin-top: 30px;
+    transition: all 0.14s ease-in-out;
+    .google-txt {
+      margin-left: 15px;
+    }
+    img {
+      height: 24px;
+      width: 24px;
+    }
+    &:hover {
+      background-color: #414141;
+      cursor: pointer;
+    }
+  }
+  .or-txt {
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  .bottom-txt {
+    font-size: 12px;
+    text-align: center;
+    color: #767676;
+    margin-top: 15px;
+  }
+  .log-in-switch {
+    color: #0f0f0f;
+    font-weight: 500;
+    transition: all 0.1s ease-in-out;
+    &:hover {
+      opacity: 0.6;
+      cursor: pointer;
+    }
+  }
+}
+
+.login-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  .forgot-pass {
+    font-size: 11px;
+    color: #767676;
+    margin: 0;
+  }
+  .input-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+  .input-lbl {
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .login-input {
+    font-family: "Poppins", sans-serif;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: 50px;
+    font-size: 12px;
+    padding-left: 10px;
+    border: 1px solid #e2e2e2;
+    border-radius: 10px;
+    outline: none;
+    color: #0f0f0f;
+    background: none;
+    &::placeholder {
+      font-size: 11px;
+      color: #767676;
+    }
+  }
+
+  .pass-wrapper {
+    margin-top: 15px;
+  }
+  .log-in-button {
+    border-radius: 10px;
+    outline: none;
+    border: none;
+    background-color: #0f0f0f;
+    color: #fff;
+    font-family: "Poppins", sans-serif;
+    height: 50px;
+    font-size: 12px;
+    margin-top: 15px;
+    transition: all 0.13s ease-in-out;
+    border: 1px solid #0f0f0f;
+
+    &:hover {
+      cursor: pointer;
+      background-color: #fff;
+      border: 1px solid #0f0f0f;
+      color: #0f0f0f;
+      font-weight: 500;
+    }
+  }
+
+  .log-in-button:disabled {
+    background-color: rgb(228, 228, 228);
+    border: none;
+    color: #767676;
+    font-weight: 500;
+    cursor: not-allowed;
+  }
+}
+.restrictions-wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  .signup-password-restrictions-container {
+    display: flex;
+
+    justify-content: left;
+    align-items: center;
+
+    .text_valid {
+      font-size: 11px;
+      margin: 0;
+      color: rgb(28, 143, 28);
+      letter-spacing: 1px;
+    }
+
+    .text_invalid {
+      font-size: 11px;
+      margin: 0;
+      color: rgb(85, 14, 14);
+      letter-spacing: 1px;
+    }
+    .symbol_invalid {
+      background-color: rgb(170, 48, 48);
+      border-radius: 50%;
+      width: 7px;
+      height: 7px;
+      margin-right: 10px;
+    }
+
+    .symbol_valid {
+      background-color: rgb(59, 158, 55);
+      border-radius: 50%;
+      width: 7px;
+      height: 7px;
+      margin-right: 10px;
+    }
+  }
+}

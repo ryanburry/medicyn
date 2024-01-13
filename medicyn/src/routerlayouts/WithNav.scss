@@ -1,0 +1,11 @@
+.main-split {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+
+  .outlet-split {
+    height: 100vh;
+    flex: 1;
+    color: #fff;
+  }
+}
