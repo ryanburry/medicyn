@@ -1,6 +1,7 @@
 import React from "react";
+import "./Medications.scss";
 
-function Medications() {
+function Medications({ medications }) {
   return <div>Medications</div>;
 }
 

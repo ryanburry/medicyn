@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Dashboard.scss";
+import AddMedicationModal from "../../components/AddMedicationModal/AddMedicationModal";
 
-function Dashboard() {
+function Dashboard({ user, medications }) {
+  const [show, setShow] = useState(false);
+  console.log(user);
   return (
     <div className="dashboard-wrapper">
+      {show && <AddMedicationModal show={show} setShow={setShow} />}
       <div className="text-container">
-        <h1 className="dashboard-title">Welcome back, Ryan!</h1>
+        <h1 className="dashboard-title">Welcome back, {user?.email}!</h1>
         <p className="dashboard-sub">Thursday, January 18th 2024</p>
       </div>
       <div className="dashboard-container">
@@ -13,15 +17,20 @@ function Dashboard() {
           <div className="dash-left-top">
             <div className="dash-panel">
               <p className="panel-title">Upcoming Dose</p>
-              <p className="panel-content">Today, 3pm</p>
+              <p className="panel-content">No planned dosages</p>
             </div>
             <div className="dash-panel med-panel">
               <div className="panel-left">
                 <p className="panel-title">Medications</p>
-                <p className="panel-content">0</p>
+                <p className="panel-content">{medications?.length}</p>
               </div>
               <div className="panel-right">
-                <button className="add-medication">Add</button>
+                <button
+                  className="add-medication"
+                  onClick={() => setShow(!show)}
+                >
+                  Add
+                </button>
               </div>
             </div>
           </div>
