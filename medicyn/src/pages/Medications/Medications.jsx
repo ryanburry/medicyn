@@ -1,17 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Medications.scss";
 import { supabase } from "../../supabasefiles/config";
 import { refetch } from "../../store/atoms";
 import { useRecoilState } from "recoil";
+import EditMedicationModal from "../../components/EditMedicationModal/EditMedicationModal";
 
 function Medications({ user, medications }) {
   const [refresh, setRefresh] = useRecoilState(refetch);
+  const [show, setShow] = useState(false);
+  const [selectedMedication, setSelectedMedication] = useState(null);
 
-  const handleDelete = async (name) => {
-    const { error } = await supabase
-      .from("medications")
-      .delete()
-      .match({ user_id: user?.id, name: name });
+  const handleEdit = (medication) => {
+    setSelectedMedication(medication);
+    setShow(true);
+  };
+
+  const handleDelete = async (id) => {
+    const { error } = await supabase.from("medications").delete().eq("id", id);
     if (error) {
       console.log(error);
     } else {
@@ -20,40 +25,57 @@ function Medications({ user, medications }) {
   };
   return (
     <div className="medications-wrapper">
+      {show && (
+        <EditMedicationModal
+          medication={selectedMedication}
+          show={show}
+          setShow={setShow}
+        />
+      )}
       <div className="medications-txt-wrapper">
         <p className="medications-title">Medications</p>
         <p className="medications-sub">Here are your current medications.</p>
       </div>
       <div className="medications-table-container">
-        <table className="medications-table">
-          <thead className="medications-table-head">
-            <tr className="medications-table-row">
-              <th className="med-header">Name</th>
-              <th className="med-header">Dosage</th>
-              <th className="med-header">Notes</th>
-              <th className="med-header tools">Tools</th>
-            </tr>
-          </thead>
-          <tbody>
-            {medications?.map((medication, key) => (
-              <div className="medications-table-row" key={key}>
-                <td>{medication.name}</td>
-                <td>{medication.dosage}</td>
-                <td>{medication.notes}</td>
-                <div className="space"></div>
-                <button className="edit-btn">Edit</button>
+        <div className="table-header">
+          <p className="table-heading">Name</p>
+          <p className="table-heading">Dosage</p>
+          <p className="table-heading">Notes</p>
+          <p className="table-heading last">Tools</p>
+        </div>
+        <div className="table-body">
+          {medications.map((medication, i) => (
+            <div key={i} className="table-row">
+              <p className="table-cell">{medication.name}</p>
+              <p className="table-cell">{medication.dosage}</p>
+              <p className="table-cell">{medication.notes}</p>
+              <p className="table-cell last">
                 <button
                   className="edit-btn"
-                  onClick={() => handleDelete(medication.name)}
+                  onClick={() => handleEdit(medication)}
                 >
-                  Delete
+                  <img
+                    width="20"
+                    height="20"
+                    src="https://img.icons8.com/fluency-systems-regular/48/0f0f0f/edit--v1.png"
+                    alt="edit--v1"
+                  />
                 </button>
-              </div>
-            ))}
-
-            <tr></tr>
-          </tbody>
-        </table>
+                <button
+                  className="edit-btn"
+                  onClick={() => handleDelete(medication.id)}
+                >
+                  <img
+                    width="20"
+                    height="20"
+                    src="https://img.icons8.com/material-rounded/24/000000/delete-forever.png"
+                    alt="delete-forever"
+                  />
+                </button>
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

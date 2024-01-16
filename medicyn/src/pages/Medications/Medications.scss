@@ -2,6 +2,7 @@
   height: calc(100vh - 86px);
   width: 100vw;
   color: #0f0f0f;
+
   .medications-txt-wrapper {
     padding-left: 150px;
     padding-top: 30px;
@@ -19,55 +20,74 @@
   .medications-table-container {
     margin-top: 100px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    .medications-table {
-      width: 70%;
-      .medications-table-head {
-        .medications-table-row {
-          .med-header {
-            border-bottom: 1px solid #e2e2e2;
-          }
-        }
-        tr {
-          height: 50px;
-          border: 1px solid #555555;
-        }
+    width: 100%;
+    padding-left: 150px;
+    padding-right: 150px;
+
+    .table-header {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      border-bottom: 1px solid #e2e2e2;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      .last {
+        display: flex;
+        justify-content: right;
       }
-      .med-header {
+      .table-heading {
         text-align: left;
         color: #909090;
         font-weight: 500;
         font-size: 14px;
+        flex: 1;
       }
-      tbody {
-        .medications-table-row {
+    }
+    .table-body {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      flex-direction: column;
+      .table-row {
+        display: flex;
+        width: 100%;
+        height: 50px;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #e2e2e2;
+        padding-top: 10px;
+        padding-bottom: 10px;
+
+        .table-cell {
+          font-size: 14px;
+          font-weight: 400;
+          flex: 1;
           display: flex;
           align-items: center;
-          height: 35px;
-          .space {
-            flex: 1;
-          }
-          td {
-            font-weight: 500;
-            font-size: 14px;
-            border-bottom: 1px solid #e2e2e2;
-          }
-          .edit-btn {
-            margin-right: 10px;
-            outline: none;
-            border: none;
-            background-color: transparent;
-            color: #0f0f0f;
-            font-family: "Poppins", Arial;
-            transition: all 0.12s ease-in-out;
-
-            &:hover {
-              cursor: pointer;
-              opacity: 0.6;
-            }
-          }
+          letter-spacing: -0.5px;
         }
+        .last {
+          display: flex;
+          justify-content: right;
+        }
+      }
+    }
+
+    .edit-btn {
+      margin-right: 10px;
+      outline: none;
+      border: none;
+      background-color: transparent;
+      color: #0f0f0f;
+      font-family: "Poppins", Arial;
+      transition: all 0.12s ease-in-out;
+
+      &:hover {
+        cursor: pointer;
+        opacity: 0.6;
       }
     }
   }
