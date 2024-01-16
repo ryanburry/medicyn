@@ -58,7 +58,7 @@ function App() {
             ></Route>
             <Route
               path="/medications"
-              element={<Medications medications={medications} />}
+              element={<Medications user={user} medications={medications} />}
             ></Route>
           </Route>
         </Routes>
