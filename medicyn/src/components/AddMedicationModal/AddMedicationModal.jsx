@@ -3,10 +3,15 @@ import "./AddMedicationModal.scss";
 import { supabase } from "../../supabasefiles/config";
 import { refetch } from "../../store/atoms";
 import { useRecoilState } from "recoil";
+import TimePicker from "react-time-picker";
+import "react-time-picker/dist/TimePicker.css";
+import "react-clock/dist/Clock.css";
 
 function AddMedicationModal({ show, setShow }) {
   const [user, setUser] = useState();
   const [refresh, setRefresh] = useRecoilState(refetch);
+
+  const [time, timeChange] = useState("10:00");
 
   const fetchUser = async () => {
     const {
@@ -67,23 +72,32 @@ function AddMedicationModal({ show, setShow }) {
           className="add-course-form"
           onSubmit={addMedication}
         >
-          <div className="cm-input">
-            <label htmlFor="" className="cm-label">
-              Name
-            </label>
-            <input
-              type="text"
-              className="cm-in"
-              placeholder="Advil.."
-              required
-            />
+          <div className="form-row">
+            <div className="cm-input m-name">
+              <label htmlFor="" className="cm-label">
+                Name
+              </label>
+              <input
+                type="text"
+                className="cm-in"
+                placeholder="Advil.."
+                required
+              />
+            </div>
+            <div className="cm-input  m-pills">
+              <label htmlFor="" className="cm-label">
+                # of Pills
+              </label>
+              <select className="cm-drop">
+                <option className="cm-option">1</option>
+                <option className="cm-option">2</option>
+                <option className="cm-option">3</option>
+                <option className="cm-option">4</option>
+                <option className="cm-option">5</option>
+              </select>
+            </div>
           </div>
-          <div className="cm-input">
-            <label htmlFor="" className="cm-label">
-              Dosage
-            </label>
-            <input type="text" className="cm-in" placeholder="200mg" required />
-          </div>
+
           <div className="cm-input">
             <label htmlFor="" className="cm-label">
               Notes

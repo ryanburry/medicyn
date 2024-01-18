@@ -69,30 +69,43 @@ function EditMedicationModal({ medication, show, setShow }) {
           className="add-course-form"
           onSubmit={editMedication}
         >
-          <div className="cm-input">
-            <label htmlFor="" className="cm-label">
-              Name
-            </label>
-            <input
-              type="text"
-              className="cm-in"
-              placeholder="Advil.."
-              required
-              defaultValue={medication.name}
-            />
+          <div className="form-row">
+            <div className="cm-input m-name">
+              <label htmlFor="" className="cm-label">
+                Name
+              </label>
+              <input
+                type="text"
+                className="cm-in"
+                placeholder="Advil.."
+                required
+                defaultValue={medication.name}
+              />
+            </div>
+            <div className="cm-input  m-pills">
+              <label htmlFor="" className="cm-label">
+                # of Pills
+              </label>
+              <select defaultValue={medication.dosage} className="cm-drop">
+                <option value="1" className="cm-option">
+                  1
+                </option>
+                <option value="2" className="cm-option">
+                  2
+                </option>
+                <option value="3" className="cm-option">
+                  3
+                </option>
+                <option value="4" className="cm-option">
+                  4
+                </option>
+                <option value="5" className="cm-option">
+                  5
+                </option>
+              </select>
+            </div>
           </div>
-          <div className="cm-input">
-            <label htmlFor="" className="cm-label">
-              Dosage
-            </label>
-            <input
-              type="text"
-              className="cm-in"
-              placeholder="200mg"
-              required
-              defaultValue={medication.dosage}
-            />
-          </div>
+
           <div className="cm-input">
             <label htmlFor="" className="cm-label">
               Notes

@@ -70,6 +70,41 @@
           color: #0f0f0f;
         }
       }
+      .form-row {
+        display: flex;
+        width: 100%;
+        gap: 10px;
+        .m-time {
+          width: 35%;
+          .cm-drop {
+            height: 100%;
+            background-color: #f3f3f3;
+            border: none;
+            border-radius: 15px;
+            padding-left: 10px;
+            color: #0f0f0f;
+            font-family: "Poppins", Arial;
+          }
+        }
+        .m-days {
+          width: 65%;
+        }
+        .m-name {
+          width: 85%;
+        }
+        .m-pills {
+          width: 15%;
+          .cm-drop {
+            height: 100%;
+            background-color: #f3f3f3;
+            border: none;
+            border-radius: 15px;
+            text-align: center;
+            color: #0f0f0f;
+            font-family: "Poppins", Arial;
+          }
+        }
+      }
       .cm-submit-btn {
         width: 100%;
         padding: 10px;

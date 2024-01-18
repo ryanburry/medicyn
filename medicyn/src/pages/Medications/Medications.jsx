@@ -39,7 +39,7 @@ function Medications({ user, medications }) {
       <div className="medications-table-container">
         <div className="table-header">
           <p className="table-heading">Name</p>
-          <p className="table-heading">Dosage</p>
+          <p className="table-heading"># of Pills</p>
           <p className="table-heading">Notes</p>
           <p className="table-heading last">Tools</p>
         </div>
