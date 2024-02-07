@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./Dashboard.scss";
 import AddMedicationModal from "../../components/AddMedicationModal/AddMedicationModal";
+import "moment-timezone";
 
 function Dashboard({ user, medications }) {
   const [show, setShow] = useState(false);
@@ -17,7 +18,7 @@ function Dashboard({ user, medications }) {
           <div className="dash-left-top">
             <div className="dash-panel">
               <p className="panel-title">Upcoming Dose</p>
-              <p className="panel-content">No planned dosages</p>
+              <p className="panel-content">Advil - 34 Minutes</p>
             </div>
             <div className="dash-panel med-panel">
               <div className="panel-left">
@@ -39,7 +40,30 @@ function Dashboard({ user, medications }) {
               <p className="schedule-title">My Schedule</p>
               <button className="manage-sched-btn">Manage</button>
             </div>
-            <div className="calendar-container"></div>
+            <div className="calendar-container">
+              {medications?.map((medication, i) => {
+                if (medication.time !== null) {
+                  return (
+                    <div key={i} className="event-container">
+                      <div className="title">
+                        <p className="med-name">{medication.name}</p>
+                        <p className="med-dose">{medication.dosage} pill(s)</p>
+                      </div>
+                      <p className="med-time">in 34 Minutes</p>
+                    </div>
+                  );
+                } else {
+                  return null; // Or you can return any other placeholder content if needed
+                }
+              })}
+              <div className="event-container">
+                <div className="title">
+                  <p className="med-name">Tylonel</p>
+                  <p className="med-dose">2 pill(s)</p>
+                </div>
+                <p className="med-time">in 4 hours</p>
+              </div>
+            </div>
           </div>
         </div>
         <div className="dash-right">

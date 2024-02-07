@@ -11,7 +11,11 @@ function AddMedicationModal({ show, setShow }) {
   const [user, setUser] = useState();
   const [refresh, setRefresh] = useRecoilState(refetch);
 
-  const [time, timeChange] = useState("10:00");
+  const [dateTime, setDateTime] = useState("");
+
+  const handleChange = async (event) => {
+    setDateTime(event.target.value);
+  };
 
   const fetchUser = async () => {
     const {
@@ -34,7 +38,8 @@ function AddMedicationModal({ show, setShow }) {
       user_id: user?.id,
       name: e.target[0].value,
       dosage: e.target[1].value,
-      notes: e.target[2].value,
+      time: dateTime,
+      notes: e.target[3].value,
     });
     if (!error) {
       setShow(!show);
@@ -96,6 +101,18 @@ function AddMedicationModal({ show, setShow }) {
                 <option className="cm-option">5</option>
               </select>
             </div>
+          </div>
+          <div className="cm-input">
+            <label htmlFor="" className="cm-label">
+              Schedule
+            </label>
+            <input
+              type="datetime-local"
+              id="datetime"
+              name="datetime"
+              value={dateTime}
+              onChange={handleChange}
+            />
           </div>
 
           <div className="cm-input">

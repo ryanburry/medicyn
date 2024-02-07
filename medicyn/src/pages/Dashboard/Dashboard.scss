@@ -119,9 +119,32 @@
           }
         }
         .calendar-container {
-          border: 1px solid #e2e2e2;
+          display: flex;
+          flex-direction: column;
+
           flex: 1;
           border-radius: 10px;
+          gap: 10px;
+
+          .event-container {
+            display: flex;
+            width: 100%;
+            padding: 20px;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #f3f3f3;
+            border: 1px solid #e2e2e2;
+            color: #0f0f0f;
+            border-radius: 10px;
+
+            .med-name {
+              font-weight: 500;
+              letter-spacing: -0.5px;
+            }
+            .med-dose {
+              font-size: 12px;
+            }
+          }
         }
       }
     }
