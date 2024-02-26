@@ -154,6 +154,52 @@
         border: 1px solid #e2e2e2;
         height: 100%;
         border-radius: 10px;
+        padding: 20px;
+        .wrapper {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 90%;
+          .no-invites {
+            color: #a9a9a9;
+          }
+        }
+        .invites-title {
+          font-weight: 500;
+          margin-bottom: 15px;
+        }
+        .invite-container {
+          background-color: #f3f3f3;
+          padding: 15px;
+          border-radius: 10px;
+          .buttons-wrapper {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            .accept-btn {
+              padding: 5px 10px;
+              font-family: "Poppins";
+              font-size: 11px;
+              background-color: #0f0f0f;
+              border: none;
+              border-radius: 5px;
+              transition: all 0.2s ease-in-out;
+              &:hover {
+                cursor: pointer;
+                opacity: 0.6;
+              }
+            }
+            .decline {
+              background-color: #d41d1d;
+            }
+          }
+          .invite-txt {
+            font-size: 13px;
+            .bold {
+              font-weight: 500;
+            }
+          }
+        }
       }
     }
   }

@@ -10,6 +10,8 @@ import { useEffect, useState } from "react";
 import { supabase } from "./supabasefiles/config";
 import { useRecoilState } from "recoil";
 import { refetch } from "./store/atoms";
+import Patients from "./pages/Patients/Patients";
+import Caregivers from "./pages/Caregivers/Caregivers";
 
 function App() {
   const [user, setUser] = useState();
@@ -59,6 +61,11 @@ function App() {
             <Route
               path="/medications"
               element={<Medications user={user} medications={medications} />}
+            ></Route>
+            <Route path="/patients" element={<Patients user={user} />}></Route>
+            <Route
+              path="/caregivers"
+              element={<Caregivers user={user} />}
             ></Route>
           </Route>
         </Routes>

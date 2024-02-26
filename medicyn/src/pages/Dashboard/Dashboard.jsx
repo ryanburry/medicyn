@@ -1,16 +1,55 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Dashboard.scss";
 import AddMedicationModal from "../../components/AddMedicationModal/AddMedicationModal";
 import "moment-timezone";
+import CaregiverDashboard from "./CaregiverDashboard";
+import { supabase } from "../../supabasefiles/config";
 
 function Dashboard({ user, medications }) {
   const [show, setShow] = useState(false);
-  console.log(user);
-  return (
+  const [userData, setUserData] = useState([]);
+  const [notifications, setNotifications] = useState();
+
+  const fetchNotifications = async () => {
+    const { data, error } = await supabase
+      .from("notifications")
+      .select("*")
+      .eq("user_id", user?.id);
+    if (error) {
+      console.log(error);
+    } else {
+      setNotifications(data);
+    }
+  };
+
+  const fetchUserData = async () => {
+    const { data, error } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("id", user?.id);
+    if (error) {
+      console.log(error);
+    } else {
+      setUserData(data);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserData();
+    fetchNotifications();
+  }, [user]);
+
+  return userData[0]?.role === "user" ? (
     <div className="dashboard-wrapper">
       {show && <AddMedicationModal show={show} setShow={setShow} />}
       <div className="text-container">
-        <h1 className="dashboard-title">Welcome back, {user?.email}!</h1>
+        <h1 className="dashboard-title">
+          Welcome back,{" "}
+          {!userData[0]?.full_name
+            ? userData[0]?.email
+            : userData[0]?.full_name}
+          !
+        </h1>
         <p className="dashboard-sub">Thursday, January 18th 2024</p>
       </div>
       <div className="dashboard-container">
@@ -56,21 +95,31 @@ function Dashboard({ user, medications }) {
                   return null; // Or you can return any other placeholder content if needed
                 }
               })}
-              <div className="event-container">
-                <div className="title">
-                  <p className="med-name">Tylonel</p>
-                  <p className="med-dose">2 pill(s)</p>
-                </div>
-                <p className="med-time">in 4 hours</p>
-              </div>
             </div>
           </div>
         </div>
         <div className="dash-right">
-          <div className="notifications-container"></div>
+          <div className="notifications-container">
+            <p className="invites-title">Notifications</p>
+            {notifications?.length !== 0 ? (
+              <div className="invites-wrapper">
+                {notifications?.map((notification, i) => (
+                  <div key={i} className="invite-container">
+                    <p className="invite-txt">{notification.message}</p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="wrapper">
+                <p className="no-invites">Nothing to see here!</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
+  ) : (
+    <CaregiverDashboard user={user} userData={userData} />
   );
 }
 

@@ -2,6 +2,23 @@
   height: calc(100vh - 86px);
   width: 100vw;
   color: #0f0f0f;
+  .invite-caregiver-wrapper {
+    padding-left: 150px;
+    padding-top: 20px;
+    .invite-btn {
+      border: none;
+      padding: 10px 15px;
+      font-family: "Poppins";
+      background-color: #0f0f0f;
+      border-radius: 5px;
+      font-size: 12px;
+      transition: all 0.2s ease-in-out;
+      &:hover {
+        cursor: pointer;
+        background-color: #474747;
+      }
+    }
+  }
 
   .medications-txt-wrapper {
     padding-left: 150px;
@@ -90,5 +107,8 @@
         opacity: 0.6;
       }
     }
+  }
+  .caregivers {
+    margin-top: 60px;
   }
 }

@@ -32,6 +32,19 @@
   .space {
     flex: 1;
   }
+  .logout-btn {
+    border: none;
+    background-color: #0f0f0f;
+    padding: 8px 15px;
+    font-family: "Poppins";
+    border-radius: 5px;
+    font-size: 12px;
+    transition: all 0.12s ease-in-out;
+    &:hover {
+      cursor: pointer;
+      opacity: 0.6;
+    }
+  }
   .profile-circle {
     height: 45px;
     width: 45px;
