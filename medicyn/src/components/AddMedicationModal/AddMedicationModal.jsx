@@ -78,6 +78,8 @@ function AddMedicationModal({ show, setShow }) {
           });
           if (error) {
             console.log(error);
+          } else {
+            setRefresh(!refresh);
           }
         });
       }
