@@ -1,18 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Medications.scss";
 import { supabase } from "../../supabasefiles/config";
 import { refetch } from "../../store/atoms";
 import { useRecoilState } from "recoil";
 import EditMedicationModal from "../../components/EditMedicationModal/EditMedicationModal";
 
-function Medications({ user, medications }) {
+function Medications({ user }) {
   const [refresh, setRefresh] = useRecoilState(refetch);
   const [show, setShow] = useState(false);
   const [selectedMedication, setSelectedMedication] = useState(null);
+  const [medications, setMedications] = useState([]);
 
   const handleEdit = (medication) => {
     setSelectedMedication(medication);
     setShow(true);
+  };
+  const fetchMedications = async () => {
+    const { data, error } = await supabase
+      .from("medications")
+      .select(
+        "id, dosage, name, notes, user_id, schedules(medication_id, day, dispense_time, dispensed)"
+      )
+      .eq("user_id", user?.id);
+    if (!error) {
+      setMedications(data);
+    } else {
+      console.log(error);
+    }
   };
 
   const handleDelete = async (id) => {
@@ -23,6 +37,10 @@ function Medications({ user, medications }) {
       setRefresh(!refresh);
     }
   };
+
+  useEffect(() => {
+    fetchMedications();
+  }, [user, refresh]);
   return (
     <div className="medications-wrapper">
       {show && (
