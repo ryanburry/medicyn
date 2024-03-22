@@ -3,15 +3,22 @@ import "./Dashboard.scss";
 import AddMedicationModal from "../../components/AddMedicationModal/AddMedicationModal";
 import "moment-timezone";
 import { supabase } from "../../supabasefiles/config";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { refetch } from "../../store/atoms";
 
-function CaregiverDashboard({ user, userData }) {
+function CaregiverDashboard({ userData }) {
   const [show, setShow] = useState(false);
   const [refresh, setRefresh] = useRecoilState(refetch);
   const [patients, setPatients] = useState();
   const [invites, setInvites] = useState();
+  const [user, setUser] = useState();
+  const fetchUser = async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    setUser(user);
+  };
 
   let navigate = useNavigate();
 
@@ -80,6 +87,10 @@ function CaregiverDashboard({ user, userData }) {
   console.log(invites);
 
   useEffect(() => {
+    fetchUser();
+  }, []);
+
+  useEffect(() => {
     fetchPatients();
     fetchInvites();
   }, [user, refresh]);
@@ -123,7 +134,9 @@ function CaregiverDashboard({ user, userData }) {
           <div className="schedule-wrapper">
             <div className="schedule-txt">
               <p className="schedule-title">My Patients</p>
-              <button className="manage-sched-btn">Manage</button>
+              <NavLink to="/patients" className="manage-sched-btn">
+                Manage
+              </NavLink>
             </div>
             <div className="calendar-container">
               {patients?.map((patient, i) => (
@@ -136,7 +149,12 @@ function CaregiverDashboard({ user, userData }) {
                     </p>
                     <p className="med-dose">{patient.email}</p>
                   </div>
-                  <button className="manage-sched-btn">Manage Schedule</button>
+                  <NavLink
+                    to={"/manage/" + patient.patient_id}
+                    className="manage-sched-btn"
+                  >
+                    Manage Schedule
+                  </NavLink>
                 </div>
               ))}
             </div>

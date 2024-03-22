@@ -12,6 +12,7 @@ import { useRecoilState } from "recoil";
 import { refetch } from "./store/atoms";
 import Patients from "./pages/Patients/Patients";
 import Caregivers from "./pages/Caregivers/Caregivers";
+import ManagePatient from "./pages/ManagePatient/ManagePatient";
 
 function App() {
   const [user, setUser] = useState();
@@ -32,11 +33,16 @@ function App() {
     const dateTime = new Date(dateTimeString);
     const currentDateTime = new Date();
 
+    dateTime.setHours(dateTime.getHours() + 4);
+
     // Extract date and time components separately
     const currentDate = new Date(
       currentDateTime.getFullYear(),
       currentDateTime.getMonth(),
-      currentDateTime.getDate()
+      currentDateTime.getDate(),
+      currentDateTime.getHours(),
+      currentDateTime.getMinutes(),
+      currentDateTime.getSeconds()
     );
     const currentTime =
       currentDateTime.getHours() * 3600 +
@@ -46,18 +52,19 @@ function App() {
     const targetDate = new Date(
       dateTime.getFullYear(),
       dateTime.getMonth(),
-      dateTime.getDate()
+      dateTime.getDate(),
+      dateTime.getHours(),
+      dateTime.getMinutes(),
+      dateTime.getSeconds()
     );
     const targetTime =
       dateTime.getHours() * 3600 +
       dateTime.getMinutes() * 60 +
       dateTime.getSeconds();
 
-    // Compare both date and time components
     return (
-      currentDate > targetDate ||
-      (currentDate.getTime() === targetDate.getTime() &&
-        currentTime >= targetTime)
+      currentDate > dateTime ||
+      (currentDate.getTime() === dateTime.getTime() && currentTime >= dateTime)
     );
   };
 
@@ -173,6 +180,7 @@ function App() {
               path="/caregivers"
               element={<Caregivers user={user} />}
             ></Route>
+            <Route path="/manage/:patient" element={<ManagePatient />}></Route>
           </Route>
         </Routes>
       </Router>

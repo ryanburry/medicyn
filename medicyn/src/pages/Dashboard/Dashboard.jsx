@@ -9,11 +9,23 @@ import { Link } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { refetch } from "../../store/atoms";
 
-function Dashboard({ user, medications, scheduledPills }) {
+function Dashboard() {
   const [show, setShow] = useState(false);
   const [userData, setUserData] = useState([]);
   const [notifications, setNotifications] = useState();
   const [refresh, setRefresh] = useRecoilState(refetch);
+  const [medications, setMedications] = useState([]);
+
+  const [scheduledPills, setScheduledPills] = useState([]);
+
+  const [user, setUser] = useState();
+
+  const fetchUser = async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    setUser(user);
+  };
 
   const clearNotifications = async () => {
     const { error } = await supabase
@@ -37,6 +49,34 @@ function Dashboard({ user, medications, scheduledPills }) {
       console.log(error);
     } else {
       setRefresh(!refresh);
+    }
+  };
+
+  const fetchScheduledPills = async () => {
+    const { data, error } = await supabase
+      .from("schedules")
+      .select(
+        "id, day, dispense_time, dispensed, medications(id, dosage, name, notes)"
+      )
+      .eq("user_id", user?.id);
+    if (!error) {
+      setScheduledPills(data);
+    } else {
+      console.log(error);
+    }
+  };
+
+  const fetchMedications = async () => {
+    const { data, error } = await supabase
+      .from("medications")
+      .select(
+        "id, dosage, name, notes, user_id, schedules(medication_id, day, dispense_time, dispensed)"
+      )
+      .eq("user_id", user?.id);
+    if (!error) {
+      setMedications(data);
+    } else {
+      console.log(error);
     }
   };
 
@@ -78,6 +118,14 @@ function Dashboard({ user, medications, scheduledPills }) {
   }
 
   useEffect(() => {
+    fetchMedications();
+    fetchScheduledPills();
+  }, [user, refresh]);
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+  useEffect(() => {
     fetchUserData();
     fetchNotifications();
   }, [user, refresh]);
@@ -90,7 +138,9 @@ function Dashboard({ user, medications, scheduledPills }) {
     return dateA - dateB; // Sort in descending order (most recent date first)
   });
 
-  return userData[0]?.role === "user" ? (
+  return userData[0]?.role === "caregiver" ? (
+    <CaregiverDashboard user={user} userData={userData} />
+  ) : (
     <div className="dashboard-wrapper">
       {show && <AddMedicationModal show={show} setShow={setShow} />}
       <div className="text-container">
@@ -244,8 +294,6 @@ function Dashboard({ user, medications, scheduledPills }) {
         </div>
       </div>
     </div>
-  ) : (
-    <CaregiverDashboard user={user} userData={userData} />
   );
 }
 

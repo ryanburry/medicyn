@@ -124,6 +124,9 @@
     justify-content: center;
     .nav-links-wrapper {
       margin-top: 150px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
 
       .nav-link {
         text-align: center;
@@ -133,6 +136,14 @@
         .nav-txt {
           padding: 20px 0px;
         }
+      }
+      .logout-btn {
+        background: #0f0f0f;
+        border: none;
+        margin-top: 20px;
+        font-family: "Poppins";
+        border-radius: 7px;
+        padding: 10px 20px;
       }
     }
   }

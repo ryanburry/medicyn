@@ -21,7 +21,7 @@ function Patients({ user }) {
 
   useEffect(() => {
     getPatients();
-  }, [user]);
+  }, []);
 
   const handleDelete = async (id) => {};
   return (

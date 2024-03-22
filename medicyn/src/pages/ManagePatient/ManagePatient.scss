@@ -1,0 +1,16 @@
+.patients-wrappper {
+  height: calc(100vh - 86px);
+  width: 100vw;
+  color: #0f0f0f;
+  padding-left: 150px;
+  padding-right: 150px;
+  .patients-title {
+    font-weight: 500;
+    font-size: 32px;
+    letter-spacing: -1.5px;
+  }
+  .patients-sub {
+    letter-spacing: -0.5px;
+    font-size: 14px;
+  }
+}

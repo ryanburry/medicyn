@@ -88,10 +88,6 @@ function Navbar() {
               <p className="nav-txt">Caregivers</p>
             </NavLink>
           )}
-
-          <NavLink className="nav-link" to="/schedule">
-            <p className="nav-txt">Schedule</p>
-          </NavLink>
         </div>
         <div className="space"></div>
         <button className="logout-btn" onClick={handleLogout}>
@@ -138,10 +134,9 @@ function Navbar() {
               <p className="nav-txt">Caregivers</p>
             </NavLink>
           )}
-
-          <NavLink className="nav-link" to="/schedule" onClick={handleClick}>
-            <p className="nav-txt">Schedule</p>
-          </NavLink>
+          <button className="logout-btn" onClick={handleLogout}>
+            Log out
+          </button>
         </div>
       </div>
     </div>
