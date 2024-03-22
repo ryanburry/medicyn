@@ -5,6 +5,8 @@
   width: calc(100vw - 300px);
   align-items: center;
   justify-content: center;
+  padding-bottom: 250px;
+  padding-right: 120px;
   font-family: "Poppins", Arial;
   letter-spacing: -0.5px;
   .c-modal-container {
@@ -70,6 +72,18 @@
           font-family: inherit;
           color: #0f0f0f;
         }
+        .time {
+          display: flex;
+          flex-direction: column;
+        }
+        .schedule-label {
+          font-size: 14px;
+          margin-top: 10px;
+          color: #0f0f0f;
+          .in {
+            margin-right: 10px;
+          }
+        }
       }
       .form-row {
         display: flex;
@@ -105,6 +119,14 @@
             font-family: "Poppins", Arial;
           }
         }
+        @media only screen and (max-width: 500px) {
+          .m-name {
+            width: 75%;
+          }
+          .m-pills {
+            width: 25%;
+          }
+        }
       }
       .cm-submit-btn {
         width: 100%;
@@ -124,5 +146,16 @@
         }
       }
     }
+  }
+}
+@media only screen and (max-width: 600px) {
+  .c-modal-wrapper {
+    padding-right: 70px;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .c-modal-wrapper {
+    padding-right: 45px;
   }
 }

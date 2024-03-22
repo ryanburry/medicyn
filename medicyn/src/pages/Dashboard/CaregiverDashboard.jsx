@@ -56,7 +56,15 @@ function CaregiverDashboard({ user, userData }) {
     }
   };
 
-  const handleDecline = async (invite) => {};
+  const handleDecline = async (invite) => {
+    const { error } = await supabase
+      .from("invites")
+      .delete()
+      .eq("id", invite.id);
+    if (error) {
+      console.log(error);
+    }
+  };
 
   const fetchInvites = async () => {
     const { data, error } = await supabase.rpc("get_invites", {

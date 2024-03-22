@@ -2,8 +2,9 @@
   height: calc(100vh - 86px);
   width: 100vw;
   color: #0f0f0f;
+  padding-left: 150px;
+  padding-right: 150px;
   .invite-caregiver-wrapper {
-    padding-left: 150px;
     padding-top: 20px;
     .invite-btn {
       border: none;
@@ -21,7 +22,6 @@
   }
 
   .medications-txt-wrapper {
-    padding-left: 150px;
     padding-top: 30px;
     .medications-title {
       font-weight: 500;
@@ -41,8 +41,6 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    padding-left: 150px;
-    padding-right: 150px;
 
     .table-header {
       display: flex;
@@ -110,5 +108,26 @@
   }
   .caregivers {
     margin-top: 60px;
+  }
+}
+
+@media only screen and (max-width: 1300px) {
+  .medications-wrapper {
+    padding-left: 90px;
+    padding-right: 90px;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .medications-wrapper {
+    padding-left: 45px;
+    padding-right: 45px;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .medications-wrapper {
+    padding-left: 15px;
+    padding-right: 15px;
   }
 }

@@ -3,10 +3,43 @@ import "./EditMedicationModal.scss";
 import { supabase } from "../../supabasefiles/config";
 import { refetch } from "../../store/atoms";
 import { useRecoilState } from "recoil";
+import DatePicker from "react-multi-date-picker";
+import TimePicker from "react-multi-date-picker/plugins/time_picker";
+import DatePanel from "react-multi-date-picker/plugins/date_panel";
+import moment from "moment-timezone";
 
 function EditMedicationModal({ medication, show, setShow }) {
   const [user, setUser] = useState();
   const [refresh, setRefresh] = useRecoilState(refetch);
+  const [selectedDays, setSelectedDays] = useState([]);
+
+  const fetchDays = async () => {
+    const { data, error } = await supabase
+      .from("schedules")
+      .select("*")
+      .eq("medication_id", medication.id);
+    if (!error) {
+      const newSelectedDays = data.map((medication) => {
+        const medicationDate = new Date(medication.day);
+
+        const offset = 240;
+
+        const newDate = medicationDate.getTime() + offset * 60000;
+
+        return new Date(newDate);
+      });
+      setSelectedDays(newSelectedDays);
+      console.log(newSelectedDays);
+    } else {
+      console.log(error);
+    }
+  };
+
+  const handleDateChange = (value) => {
+    // value here is an array of selected dates
+    setSelectedDays(value);
+    //console.log(new Date(selectedDays[0]).toLocaleString("en-US")); //this is on to something
+  };
 
   const fetchUser = async () => {
     const {
@@ -25,24 +58,44 @@ function EditMedicationModal({ medication, show, setShow }) {
   const editMedication = async (e) => {
     e.preventDefault();
 
-    const { error } = await supabase
+    const { error: medicationError } = await supabase
       .from("medications")
       .update({
         name: e.target[0].value,
         dosage: e.target[1].value,
-        notes: e.target[2].value,
+        notes: e.target[3].value,
       })
       .eq("id", medication.id);
-    if (!error) {
-      setShow(!show);
-      setRefresh(!refresh);
+    if (medicationError) {
+      console.log(medicationError);
+    }
+    const { error: deleteError } = await supabase
+      .from("schedules")
+      .delete()
+      .eq("medication_id", medication.id);
+    if (deleteError) {
+      console.log(deleteError);
     } else {
-      console.log(error);
+      selectedDays.map(async (day) => {
+        const { error: insertError } = await supabase.from("schedules").insert({
+          user_id: user?.id,
+          medication_id: medication.id,
+          dispensed: false,
+          day: day.toLocaleString("en-US"),
+        });
+        if (insertError) {
+          console.log(insertError);
+        } else {
+          setShow(!show);
+          setRefresh(!refresh);
+        }
+      });
     }
   };
 
   useEffect(() => {
     fetchUser();
+    fetchDays();
   }, []);
 
   return (
@@ -104,6 +157,25 @@ function EditMedicationModal({ medication, show, setShow }) {
                 </option>
               </select>
             </div>
+          </div>
+          <div className="cm-input">
+            <label htmlFor="" className="cm-label">
+              Schedule
+            </label>
+            <DatePicker
+              format="YYYY-MM-DD HH:mm"
+              value={selectedDays}
+              multiple
+              onChange={handleDateChange}
+              plugins={[
+                <TimePicker
+                  position="right"
+                  sStep={0}
+                  locale="en" // Set locale to English
+                />,
+                <DatePanel markFocused />,
+              ]}
+            />
           </div>
 
           <div className="cm-input">

@@ -3,18 +3,36 @@ import "./AddMedicationModal.scss";
 import { supabase } from "../../supabasefiles/config";
 import { refetch } from "../../store/atoms";
 import { useRecoilState } from "recoil";
-import TimePicker from "react-time-picker";
-import "react-time-picker/dist/TimePicker.css";
-import "react-clock/dist/Clock.css";
+
+import DatePicker from "react-multi-date-picker";
+import TimePicker from "react-multi-date-picker/plugins/time_picker";
+import DatePanel from "react-multi-date-picker/plugins/date_panel";
+import moment from "moment-timezone";
 
 function AddMedicationModal({ show, setShow }) {
   const [user, setUser] = useState();
   const [refresh, setRefresh] = useRecoilState(refetch);
 
-  const [dateTime, setDateTime] = useState("");
+  const [time, setTime] = useState("8:00");
+  const [selectedDays, setSelectedDays] = useState([]);
+  const handleDateChange = (value) => {
+    // value here is an array of selected dates
+    setSelectedDays(value);
+    //console.log(new Date(selectedDays[0]).toLocaleString("en-US")); //this is on to something
+  };
+  /*
+  const handleDayToggle = (day) => {
+    if (selectedDays.includes(day)) {
+      setSelectedDays(
+        selectedDays.filter((selectedDay) => selectedDay !== day)
+      );
+    } else {
+      setSelectedDays([...selectedDays, day]);
+    }
+  };*/
 
   const handleChange = async (event) => {
-    setDateTime(event.target.value);
+    setTime(event.target.value);
   };
 
   const fetchUser = async () => {
@@ -34,21 +52,39 @@ function AddMedicationModal({ show, setShow }) {
   const addMedication = async (e) => {
     e.preventDefault();
 
-    const { error } = await supabase.from("medications").insert({
-      user_id: user?.id,
-      name: e.target[0].value,
-      dosage: e.target[1].value,
-      time: dateTime,
-      notes: e.target[3].value,
-    });
+    const { data, error } = await supabase
+      .from("medications")
+      .insert({
+        user_id: user?.id,
+        name: e.target[0].value,
+        dosage: e.target[1].value,
+        notes: e.target[3].value,
+      })
+      .single()
+      .select("*");
+
     if (!error) {
       setShow(!show);
       setRefresh(!refresh);
+
+      if (data && selectedDays.length !== 0) {
+        const newMedicationId = data.id;
+
+        selectedDays.forEach(async (day) => {
+          const { error } = await supabase.from("schedules").insert({
+            user_id: user?.id,
+            medication_id: newMedicationId,
+            day: day.toLocaleString("en-US"),
+          });
+          if (error) {
+            console.log(error);
+          }
+        });
+      }
     } else {
       console.log(error);
     }
   };
-
   useEffect(() => {
     fetchUser();
   }, []);
@@ -106,13 +142,50 @@ function AddMedicationModal({ show, setShow }) {
             <label htmlFor="" className="cm-label">
               Schedule
             </label>
-            <input
-              type="datetime-local"
-              id="datetime"
-              name="datetime"
-              value={dateTime}
-              onChange={handleChange}
+            <DatePicker
+              format="YYYY-MM-DD HH:mm"
+              value={selectedDays}
+              multiple
+              onChange={handleDateChange}
+              plugins={[
+                <TimePicker
+                  position="right"
+                  sStep={0}
+                  locale="en" // Set locale to English
+                />,
+                <DatePanel markFocused />,
+              ]}
             />
+            {/** 
+            <label className="schedule-label time">
+              Time of Day:
+              <input
+                type="time"
+                value={time}
+                onChange={(e) => handleChange(e)}
+              />
+            </label>
+            <label className="schedule-label">
+              Days of the Week:
+              <div>
+                {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
+                  (day, key) => (
+                    <label className="in" key={key}>
+                      <input
+                        className="schedule-label"
+                        type="checkbox"
+                        value={key}
+                        checked={selectedDays.includes(key)}
+                        onChange={() => handleDayToggle(key)}
+                      />
+                      &nbsp;
+                      {day}
+                    </label>
+                  )
+                )}
+              </div>
+              
+            </label>*/}
           </div>
 
           <div className="cm-input">
